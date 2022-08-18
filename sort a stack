@@ -1,0 +1,30 @@
+
+void sortedInsert(stack<int> &s, int element){
+    //base case
+    if(s.empty() || (s.top()<element)){
+        s.push(element);
+        return;
+    }
+    int num = s.top();
+    s.pop();
+    
+    //recursive call
+    sortedInsert(s,element);
+    
+    s.push(num);
+}
+
+void sortStack(stack<int> &stack)
+{
+    //base case
+	if(stack.empty()){
+        return;
+    }
+    int num = stack.top();
+    stack.pop();
+    
+    //recursive call
+    sortStack(stack);
+    
+    sortedInsert(stack,num);
+}
