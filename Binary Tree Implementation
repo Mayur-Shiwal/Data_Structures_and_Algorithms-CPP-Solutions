@@ -24,11 +24,16 @@ node* builtTree(node* root){
     cin>>data;
     root = new node(data);
 
+    //base Case
     if(data == -1){
         return NULL;
     }
+
+    //recursive call
     cout<<"Enter Data for Inserting Left "<<data<<endl;
     root->left = builtTree(root->left);
+
+    //recursion + backTrackings
     cout<<"Enter data for Inserting right"<<data<<endl;
     root->right = builtTree(root->right);
 
