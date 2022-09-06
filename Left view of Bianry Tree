@@ -1,0 +1,40 @@
+/* A binary tree node
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+ */
+
+void solve(Node* root,vector<int> &ans, int level){
+    
+    if(level == ans.size()){
+        ans.push_back(root->data);
+    }
+    
+    if(root->left){
+        solve(root->left,ans,level+1);
+    }
+    if(root->right){
+        solve(root->right,ans,level+1);
+    }
+}
+
+//Function to return a list containing elements of left view of the binary tree.
+vector<int> leftView(Node *root)
+{
+   int level = 0;
+   vector<int> ans;
+   if(root == NULL){
+        return ans;
+    }
+   solve(root,ans,level);
+   return ans;
+}
