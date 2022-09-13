@@ -1,0 +1,61 @@
+int predecessor(BinaryTreeNode<int>* root, int key){
+    int ans = -1;
+    while(root!=NULL){
+        if(root->data>=key){
+            root=root->left;
+        }
+        else{
+            ans = root->data;
+            root = root->right;
+        }
+    }
+    return ans;
+}
+int successor(BinaryTreeNode<int>* root, int key){
+    int ans = -1;
+    while(root!=NULL){
+        if(root->data<=key){
+            root = root->right;
+        }
+        else{
+            ans = root->data;
+            root = root->left;
+        }
+    }
+    return ans;
+}
+
+pair<int,int> predecessorSuccessor(BinaryTreeNode<int>* root, int key)
+{
+    int pred = predecessor(root,key);
+    int succ = successor(root,key);
+    pair<int,int> ans = make_pair(pred,succ);
+    return ans;
+//     BinaryTreeNode<int>* curr = root;
+//     int pred = -1;
+//     int succ = -1;
+//     while(curr->data != key){
+//         if(curr->data > key){
+//             succ = curr->data;
+//             curr = curr->left;
+//         }else{
+//             pred = curr->data;
+//             curr = curr->right;
+//         }
+//     }
+//     //pred ans succ
+// //     pred
+//     BinaryTreeNode<int>* leftTree = curr->left;
+//     while(leftTree!=NULL){
+//         pred = leftTree->data;
+//         leftTree = leftTree->right;
+//     }
+// //     succ
+//     BinaryTreeNode<int>* rightTree = curr->right;
+//     while(rightTree!=NULL){
+//         succ = rightTree->data;
+//         rightTree = rightTree->left;
+//     }
+//     pair<int,int> ans = make_pair(pred,succ);
+//     return ans;
+}
