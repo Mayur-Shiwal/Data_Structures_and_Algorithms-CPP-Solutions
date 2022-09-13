@@ -1,0 +1,35 @@
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+// return the Kth largest element in the given BST rooted at 'root'
+class Solution
+{
+    public:
+    void solve(Node* root, vector<int> &ans){
+        if(root == NULL){
+            return ;
+        }
+        solve(root->left,ans);
+        ans.push_back(root->data);
+        solve(root->right,ans);
+    }
+    
+    int kthLargest(Node *root, int K)
+    {
+        vector<int> ans;
+        solve(root,ans);
+        if(K>ans.size()){
+            return -1;
+        }
+        return ans[(ans.size()-K)];
+    }
+};
