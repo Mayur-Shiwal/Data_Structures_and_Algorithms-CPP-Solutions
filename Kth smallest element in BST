@@ -1,0 +1,52 @@
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    
+    // int solve(Node* root, int &i, int k){
+    //     if(root == NULL){
+    //         return -1;
+    //     }
+    //     int left = solve(root->left,i,k);
+    //     if(left != -1)
+    //         return left;
+    //     i++;
+    //     if(i == k){
+    //         return root->data;
+    //     }
+    //     return solve(root->right,i,k);
+        
+    // }
+  
+    void solve(Node* root, vector<int> &ans){
+        if(root == NULL){
+            return;
+        }
+        solve(root->left,ans);
+        ans.push_back(root->data);
+        solve(root->right,ans);
+    }
+    
+    // Return the Kth smallest element in the given BST
+    int KthSmallestElement(Node *root, int K) {
+        // int i=0;
+        // int ans = solve(root,i,K);
+        // return ans;
+        vector<int> ans;
+        solve(root,ans);
+        if(K>ans.size()){
+            return -1;
+        }
+        return ans[K-1];
+    }
+};
