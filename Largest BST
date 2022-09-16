@@ -1,0 +1,35 @@
+class NodeValue{
+    public:
+    int minValue,maxValue,size;
+    NodeValue(int minValue, int maxValue, int size){
+        this->minValue = minValue;
+        this->maxValue = maxValue;
+        this->size = size;
+    }
+};
+
+class Solution{
+    private:
+    
+    NodeValue solve(Node* root){
+        if(!root){
+            return NodeValue(INT_MAX,INT_MIN,0);
+        }
+        auto left = solve(root->left);
+        auto right = solve(root->right);
+        
+        if(left.maxValue<root->data && root->data<right.minValue){
+            return NodeValue(min(root->data,left.minValue),max(root->data,right.maxValue),
+                            left.size+right.size + 1);
+        }
+        return NodeValue(INT_MIN,INT_MAX,max(left.size,right.size));
+    }
+    
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    public:
+    int largestBst(Node *root)
+    {
+    	return solve(root).size;
+    }
+};
