@@ -1,0 +1,49 @@
+Node* findLeftRightMost(Node* root){
+    if(root->right == NULL){
+        return root;
+    }
+    return findLeftRightMost(root->right);
+}
+
+
+Node* helper(Node* root){
+    if(root->left == NULL){
+        return root->right;
+    }
+    if(root->right == NULL){
+        return root->left;
+    }
+    Node* rightChild = root->right;
+    Node* leftChild = findLeftRightMost(root->left);
+    leftChild->right = rightChild;
+    return root->left;
+}
+
+Node *deleteNode(Node *root, int X) {
+    if(root == NULL){
+        return NULL;
+    }
+    if(root->data == X){
+        return helper(root);
+    }
+    Node* temp = root;
+    while(root!=NULL){
+        if(root->data>X){
+            if(root->left!=NULL && root->left->data == X){
+                root->left = helper(root->left);
+                break;
+            }else{
+                root = root->left;
+            }
+        }else{
+            if(root->right!=NULL && root->right->data == X){
+                root->right = helper(root->right);
+                break;
+            }
+            else{
+                root=root->right;
+            }
+        }
+    }
+    return temp;
+}
