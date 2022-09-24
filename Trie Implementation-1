@@ -1,0 +1,82 @@
+struct Node{
+    Node* links[26];
+    bool flag = false;
+    bool containsKey(char ch){
+        //check if the reference trie is present or not
+        return (links[ch - 'a'] != NULL);
+    }
+    
+    //for puuting a new ch;
+    void put(char ch, Node* node){
+        links[ch-'a'] = node;
+    }
+    
+    //to get next node for traversal
+    Node* get(char ch){
+        return links[ch-'a'];
+    }
+    //setting flag to true at the end of the word
+    void setEnd(){
+        flag  = true;
+    }
+    //checking if the word is cokpleted or not
+    bool isEnd(){
+        return flag;
+    }  
+};
+
+class Trie {
+
+    private:
+    Node* root;
+    
+public:
+
+    /** Initialize your data structure here. */
+    Trie() {
+        //creating new object
+        root = new Node();
+    }
+
+    /** Inserts a word into the trie. */
+    //TC - O(len)  len = length of the word
+    void insert(string word) {
+        Node* node = root;
+        for(int i=0;i<word.size();i++){
+            //keep on inserting new node untill the length of the word ends
+            //if its does not exist
+            if(!node->containsKey(word[i])){
+                node->put(word[i], new Node());
+            }
+            //moves to the reference trie
+            node = node->get(word[i]); 
+        }
+        //reference Node or Terminal Node
+        node->setEnd();
+    }
+    //TC - O(len) where len = length of the word;
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        Node* node = root;
+        for(int i=0;i<word.length();i++){
+            //if the word is not present
+            if(!node->containsKey(word[i])){
+                return false;
+            }
+            node = node->get(word[i]);
+        }
+        return node->isEnd();
+    }
+    // TC - O(len) where len = length of the word
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        Node* node = root;
+        for(int i=0;i<prefix.length();i++){
+            if(!node->containsKey(prefix[i])){
+                return false;
+            }
+            node = node->get(prefix[i]);
+        }
+        return true;
+    }
+};
