@@ -1,0 +1,42 @@
+#include <bits/stdc++.h> 
+
+void prepareAdjList(unordered_map<int, set<int>> &adj, vector<pair<int,int>> &edges){
+    for(int i=0;i<edges.size();i++){
+        int u = edges[i].first;
+        int v = edges[i].second;
+        
+        adj[u].insert(v);
+        adj[v].insert(u);
+    }
+}
+void bfs(unordered_map<int, set<int>> &adj, unordered_map<int, bool> &vis, vector<int> &ans,
+        int node){
+    queue<int> q;
+    q.push(node);
+    vis[node] = 1;
+    while(!q.empty()){
+        int frontNode = q.front();
+        q.pop();
+        ans.push_back(frontNode);
+        for(auto it:adj[frontNode]){
+            if(!vis[it]){
+                q.push(it);
+                vis[it] = 1;
+            }
+        }
+    }
+}
+vector<int> BFS(int vertex, vector<pair<int, int>> edges)
+{
+    unordered_map<int, set<int>> adj;
+    vector<int> ans;
+    unordered_map<int, bool> vis;
+    prepareAdjList(adj, edges);
+    //traverse all component of graph
+    for(int i=0;i<vertex;i++){
+        if(!vis[i]){
+            bfs(adj,vis,ans,i);
+        }
+    }
+    return ans;
+}
