@@ -1,0 +1,45 @@
+#include <bits/stdc++.h> 
+
+bool dfs(int node, vector<int> &vis, unordered_map<int, list<int>> &adj,
+         vector<int> &checkNodes, vector<int> &pathVis){
+    vis[node] = 1;
+    pathVis[node] = 1;
+    checkNodes[node] = 0;
+    for(auto it: adj[node]){
+        if(!vis[it]){
+            //check for cycle if true then return directly
+            if(dfs(it, vis, adj, checkNodes, pathVis) == true) return true;
+        }
+        else if(pathVis[it]) return true;
+    }
+    //if not cycle then mark it ad safe Node
+    checkNodes[node] = 1;
+    pathVis[node] = 0;
+    return false;
+}
+
+vector<int> safeNodes(vector<vector<int>> &edges, int n, int e) {
+    //convert edges to adj mat; 
+    unordered_map<int, list<int>> adj;
+    for(int i=0;i<e;i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        
+        adj[u].push_back(v);
+    }
+    vector<int> vis(n, 0);
+    vector<int> checkNodes(n, 0);
+    vector<int> pathVis(n, 0);
+    vector<int> safeNodes;
+    //traversed for all compenents
+    for(int i=0;i<n;i++){
+        if(!vis[i]){
+            dfs(i, vis, adj, checkNodes, pathVis);
+        }
+    }
+    //if nodes are safe then push in safeNodes 
+    for(int i=0;i<n;i++){
+        if(checkNodes[i] == 1) safeNodes.push_back(i);
+    }
+    return safeNodes;
+}
