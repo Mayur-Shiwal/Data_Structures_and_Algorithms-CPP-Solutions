@@ -1,0 +1,55 @@
+class Solution{
+    //algo for topological sort 
+    private:
+    vector<int> topoSort(int v, vector<int> adj[]){
+        int inDegree[v] = {0};
+        for(int i=0;i<v;i++){
+            for(auto it: adj[i]){
+                inDegree[it]++;
+            }
+        }
+        queue<int> q;
+        for(int i=0;i<v;i++){
+            if(inDegree[i] == 0) q.push(i);
+        }
+        vector<int> topo;
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            topo.push_back(node);
+            for(auto it: adj[node]){
+                inDegree[it]--;
+                if(inDegree[it] == 0) q.push(it);
+            }
+        }
+        return topo;
+    }
+    
+    public:
+    string findOrder(string dict[], int N, int K) {
+        //created adj
+        vector<int> adj[K];
+        //started a loop to traverse all given string
+        for(int i=0;i<N-1;i++){
+            string s1 = dict[i];
+            string s2 = dict[i+1];
+            //get the min size of string 
+            int len = min(s1.size(), s2.size());
+            //now comapare and push them into the adj
+            for(int j=0;j<len;j++){
+                if(s1[j] != s2[j]){
+                    adj[s1[j] - 'a'].push_back(s2[j] - 'a');
+                    break;
+                }
+            }
+        }
+        // call for topo sort function
+        vector<int> topo = topoSort(K, adj);
+        //expected a string to be return 
+        string ans= "";
+        for(auto it: topo){
+            ans = ans + char(it + 'a');
+        }
+        return ans;
+    }
+};
