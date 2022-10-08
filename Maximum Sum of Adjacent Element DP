@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+
+// int f(int i, vector<int> &nums, vector<int> &dp){
+//     if(i == 0) return nums[i];
+//     if(i < 0 ) return 0;
+//     if(dp[i] != -1) return dp[i];
+//     int pick = nums[i] + f(i-2, nums, dp);
+//     int nonPick = 0 + f(i-1, nums, dp);
+//     dp[i] = max(pick, nonPick);
+//     return dp[i];
+// }
+
+int maximumNonAdjacentSum(vector<int> &nums){
+//     int n = nums.size();
+//     vector<int> dp(n, -1);
+//     return f(n-1, nums, dp);
+    
+//     tabulation Method
+    int n = nums.size();
+    int prev = nums[0];
+    int prev2 = 0;
+    for(int i=1;i<n;i++){
+        int take = nums[i] ;
+        if(i>1) take+=prev2;
+        int nonTake = 0 + prev;
+        int curri = max(take, nonTake);
+        prev2 = prev;
+        prev = curri;
+    }
+    return prev;   
+}
