@@ -1,0 +1,32 @@
+int f(int i, int sum, vector<int> &num, vector<vector<int>> &dp){
+    if(i==-1){
+       if(sum==0)return 1;
+       else return 0;
+    } 
+    if(dp[i][sum] != -1) return dp[i][sum];
+    int notPick = f(i-1, sum, num, dp);
+    int pick = 0;
+    if(num[i]<=sum) pick = f(i-1, sum - num[i], num, dp);
+    return dp[i][sum] = (pick + notPick);
+}
+
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    int n = num.size();
+    vector<vector<int>> dp(n, vector<int>(tar + 1, -1));
+    return f(n-1, tar, num, dp);
+}
+
+int countPartitions(int n, int d, vector<int> &arr) {
+    // Write your code here.
+    int totalSum = 0;
+    for(auto &it: arr) totalSum += it;
+    if(totalSum - d < 0 || (totalSum - d) % 2) return false;
+    return findWays(arr, (totalSum - d) / 2);
+}
+
+int targetSum(int n, int target, vector<int>& arr) {
+    // Write your code here.
+    return countPartitions(n, target, arr);
+}
