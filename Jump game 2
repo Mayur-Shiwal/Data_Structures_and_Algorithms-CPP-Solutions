@@ -1,0 +1,17 @@
+class Solution {
+public:
+    long long int f(vector<int> &nums, int cur, int n, vector<int> &dp){
+        if(cur >= n) return 0;
+        if(dp[cur] != -1) return dp[cur];
+        long long int ans = INT_MAX;
+        for(int i=1;i<=nums[cur];i++){
+            ans = min(ans, 1 + f(nums, cur + i, n, dp));
+        }
+        return dp[cur] = ans;
+    }
+    int jump(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return f(nums, 0, n-1, dp);
+    }
+};
