@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> smp;
+        unordered_map<char, int> tmp;
+        int len_s = s.length();
+        int len_t = t.length();
+        if(len_s < len_t) return "";
+        for(int i=0;i<len_t;i++) tmp[t[i]]++;
+        int count = 0, st = 0, min_len = INT_MAX, st_ind = -1;
+        for(int j=0;j<len_s;j++){
+            smp[s[j]]++;
+            if(smp[s[j]] <= tmp[s[j]]) count++; // if charchter matches the string of hash t
+            if(count  == len_t){
+                if(smp[s[st]] > tmp[s[st]]){
+                    while(smp[s[st]] > tmp[s[st]]){
+                        smp[s[st]]--;
+                        st++;
+                    }
+                }
+                if(min_len > j - st + 1){
+                    min_len = j - st + 1;
+                    st_ind = st;
+                }
+            }
+        }
+        if(st_ind == -1) return "";
+        return s.substr(st_ind, min_len);
+    }
+};
