@@ -1,0 +1,43 @@
+// User function Template for C++
+
+/*struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+
+};*/
+
+struct Node* partition(struct Node* head, int x) {
+    // code here
+    Node* temp = head;
+    Node* h1 = new Node(0);
+    Node* h2 = new Node(0);
+    Node* h3 = new Node(0);
+    Node* curr1 = h1;
+    Node* curr2 = h2;
+    Node* curr3 = h3;
+    while(temp){
+        if(temp->data < x){
+            curr1->next = new Node(temp->data);
+            curr1 = curr1->next;
+        }
+        else if(temp->data == x){
+            curr2->next = new Node(temp->data);
+            curr2 = curr2->next;
+        }
+        else{
+            curr3->next = new Node(temp->data);
+            curr3 = curr3->next;
+        }
+        temp = temp->next;
+    }
+    curr3->next = NULL;
+    curr2->next = h3->next;
+    curr1->next = h2->next;
+    return h1->next;
+}
