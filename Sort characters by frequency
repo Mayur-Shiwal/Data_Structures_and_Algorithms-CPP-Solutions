@@ -1,0 +1,32 @@
+class Solution {
+public:
+    static bool comp(const pair<char, int> &a, const pair<char, int> &b){
+        return (a.second > b.second);
+    }
+    string frequencySort(string s) {
+        // string ans = "";
+        // unordered_map<char, int> mp;
+        // for(int i=0;i<s.size();i++) mp[s[i]]++; //storing charachters and its freq in map
+        // vector<pair<char, int>> v(mp.begin(), mp.end()); //inserting mp in vector
+        // sort(v.begin(), v.end(), comp); //sorting vector according to freq (from high to low)
+        // for(int i=0;i<v.size();i++){
+        //     int temp = v[i].second;
+        //     while(temp--){
+        //         ans += v[i].first; //finally putting it into ans
+        //     }
+        // }
+        // return ans;
+
+        //using multimap
+        map<char, int> mp;
+        for(int i=0;i<s.size();i++) mp[s[i]]++;
+        multimap<int, char, greater<>> mm;
+        for(auto it: mp) mm.insert({it.second, it.first});
+        string ans = "";
+        for(auto it: mm){
+            int temp = it.first;
+            while(temp--) ans += it.second;
+        }
+        return ans;
+    }
+};
