@@ -1,0 +1,57 @@
+class Solution {
+    struct node{
+        char c;
+        int ends;
+        string word;
+        node* child[26];
+    };
+    struct node* getNode(char c){
+        node* newNode = new node;
+        newNode->c = c;
+        newNode->ends = 0;
+        newNode->word = "";
+        for(int i=0;i<26;i++) newNode->child[i] = NULL;
+        return newNode;
+    }
+    node* root = getNode('/'); //root;
+    void insert(string s){
+        node* curr = root;
+        int ind , i=0;
+        while(s[i]){
+            ind = s[i] - 'a';
+            if(curr->child[ind] == NULL) curr->child[ind] = getNode(s[i]);
+            curr = curr->child[ind];
+            i+=1;
+        }
+        curr->ends += 1;
+        curr->word = s;
+    }
+    void solve(vector<vector<char>> &board, int i, int j, int r, int c, vector<string> &ans, node* curr){
+        int ind = board[i][j] - 'a';
+        if(board[i][j] == '$' || curr->child[ind] == NULL) return;
+        curr = curr->child[ind];
+        if(curr->ends > 0){
+            ans.push_back(curr->word);
+            curr->ends -= 1;
+        }
+        char ch = board[i][j];
+        board[i][j] = '$';
+        if(i > 0) solve(board, i-1, j, r, c, ans, curr);
+        if(i < r-1) solve(board, i+1, j, r, c, ans, curr);
+        if(j > 0) solve(board, i, j-1, r, c, ans, curr);
+        if(j < c-1) solve(board, i, j+1, r, c, ans, curr);
+        board[i][j] = ch;
+    }
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        int r = board.size();
+        int c = board[0].size();
+        for(int i=0;i<words.size();i++) insert(words[i]); //insert all word in trie;
+        vector<string> ans;
+        //search words
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++) solve(board, i, j, r, c, ans, root);
+        }
+        return ans;
+    }
+};
