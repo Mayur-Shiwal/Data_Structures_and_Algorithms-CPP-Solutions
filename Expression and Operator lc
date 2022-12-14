@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void f(string &num, int target, int curr, vector<string> &ans, string prevString,
+             long long int prevNumber, long long int currSum, int n){
+        if(curr == num.size()){
+            if(currSum == target) ans.push_back(prevString);
+            return;
+        }
+        for(int i=1;i<=(n-curr);i++){
+            string number = num.substr(curr, i);
+            if(number[0] == '0' && number.size() > 1) continue;
+            long long int currNum = stoll(number);
+            f(num, target, curr + i, ans, prevString + "+" + number, currNum, currSum + currNum, n);
+            f(num, target, curr + i, ans, prevString + "-" + number, -currNum, currSum - currNum, n);
+            f(num, target, curr + i, ans, prevString + "*" + number, currNum * prevNumber, currSum - prevNumber + currNum * prevNumber, n);
+        }
+    }
+    vector<string> addOperators(string num, int target) {
+        vector<string> ans;
+        int n = num.size();
+        for(int i=1;i<=n;i++){
+            string number = num.substr(0, i);
+            if(number[0] == '0' && number.size() > 1) continue;
+            long long int currNum = stoll(number);
+            f(num, target, i, ans, number, currNum, currNum, n);
+        }
+        return ans;
+    }
+};
