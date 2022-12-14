@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        vector<vector<int>> ans;
+        vector<pair<int, int>> coOrdinates;
+        for(auto it: buildings){
+            coOrdinates.push_back({it[0], -it[2]});
+            coOrdinates.push_back({it[1], it[2]});
+        }
+        sort(coOrdinates.begin(), coOrdinates.end());
+        multiset<int, greater<int>> st;
+        st.insert(0);
+        int height = 0;
+        for(auto it: coOrdinates){
+            int currX = it.first;
+            int currH = it.second;
+            if(currH < 0) st.insert(-currH);// just for the identification of first greater height
+            else st.erase(st.find(currH));//occuring again means continuous on x axis so remove it
+            int top = *st.begin();
+            if(height != top){
+                height = top;
+                ans.push_back({currX, top});
+            }
+        }
+        return ans;
+    }
+};
