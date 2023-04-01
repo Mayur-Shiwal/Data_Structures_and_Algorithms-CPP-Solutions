@@ -11,8 +11,7 @@ class Solution {
   public:
     long long int minOperations(int N) {
         // Code here
-        // return (!(N%2)) ? (long long int)N/2*(N/2): (long long int)N/2 * (N/2) + 1;
-        return N%2==0?(long)N/2*(N/2):(long)N/2*(N/2+1);
+        return !(N%2) ? (long)N/2*(N/2) : (long)N/2 * (N/2 + 1);
     }
 };
 
