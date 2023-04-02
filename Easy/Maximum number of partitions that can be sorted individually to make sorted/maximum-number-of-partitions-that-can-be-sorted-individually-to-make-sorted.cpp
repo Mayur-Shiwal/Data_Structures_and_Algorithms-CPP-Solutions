@@ -32,13 +32,15 @@ int main()
 int maxPartitions(int arr[], int n)
 {
     // Complete the function
-    int ans = 0;
-    int i = 0;
-    while(i < n){
-        int j = arr[i];
-        while(i <= j && arr[i] <= j) i++;
-        ans = (i == j+1) ? ans + 1 : ans;
+    stack<int> st;
+    for(int i=0;i<n;i++){
+        int maxi = arr[i];
+        while(!st.empty() && st.top() > arr[i]){
+            maxi = max(st.top(), maxi);
+            st.pop();
+        }
+        st.push(maxi);
     }
-    return (ans == 0) ? 1 : ans;
+    return st.size();
     
 }
