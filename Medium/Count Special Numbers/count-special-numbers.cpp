@@ -22,7 +22,7 @@ class Solution {
         //     }
         // }
         // return ans;
-        int maxiElement = -1;
+        int maxiElement = -1e9;
         for(auto it: arr) maxiElement = max(maxiElement, it);
         vector<int> v(maxiElement+1, 0);
         for(int i=0;i<N;i++){
