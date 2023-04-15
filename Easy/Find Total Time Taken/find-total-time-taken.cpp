@@ -35,7 +35,7 @@ class Solution {
         int ans = 0;
         map<int, int> mp;
         for(int i=0;i<n;i++){
-            if(mp[arr[i]] > 0) ans += time[arr[i]-1];
+            if(mp[arr[i]]) ans += time[arr[i]-1];
             else ans++;
             mp[arr[i]]++;
         }
