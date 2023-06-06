@@ -8,10 +8,9 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
-class DisjoinSet{
-   
+class DisjoinSet{   
 public:
-     vector<int> rank, parent, size;
+    vector<int> rank, parent, size;
     DisjoinSet(int n){
         rank.resize(n+1, 0);
         parent.resize(n+1);
@@ -55,74 +54,60 @@ public:
     }
 
 };
-
 class Solution {
-    private:
-     bool isverify(int adjr,int adjc,int n)
-    {
-        return adjr>=0&&adjr<n&&adjc>=0&&adjc<n;
+private:
+    bool isValid(int i, int j, int n){
+        return (i >= 0 && i < n && j >= 0 && j < n);
     }
-    public:
+public:
     int MaxConnection(vector<vector<int>>& grid) {
-        // code here
-        int n=grid.size();
+        int n = grid.size();
         DisjoinSet ds(n*n);
-       //step1
-       for(int row=0;row<n;row++){
-           for(int col=0;col<n;col++){
-               if(grid[row][col]==0){
-                   continue;
-               }
-               else{
-                   int delrow[]={-1,0,1,0};
-                   int delcol[]={0,-1,0,1};
-                   for(int i=0;i<4;i++){
-                       int adjr=row+delrow[i];
-                       int adjc=col+delcol[i];
-                       if(isverify(adjr,adjc,n)&&grid[adjr][adjc]==1){
-                           int nrow=row*n+col;
-                           int ncol=adjr*n+adjc;
-                           ds.unionBySize(nrow,ncol);
-                       }
-                   }
-               }
-           }
-       }
-       //step2
-       int mx=0;
-       for(int row=0;row<n;row++){
-           for(int col=0;col<n;col++){
-                if(grid[row][col]==1){
-                   continue;
-               }
-               else{
-                   int delrow[]={-1,0,1,0};
-                   int delcol[]={0,-1,0,1};
-                    set<int>sa;
-                   for(int i=0;i<4;i++){
-                       int adjr=row+delrow[i];
-                       int adjc=col+delcol[i];
-                       if(isverify(adjr,adjc,n)){
-                           if(grid[adjr][adjc]==1){
-                               sa.insert(ds.findUPar(adjr*n+adjc));
-                           }
-                       }
-                  }
-                  int size1=0;
-                  for(auto it:sa){
-                     size1+=ds.size[it]; 
-                  }
-                  mx=max(size1+1,mx);
+        //connecting components
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 0) continue;
+                for(int delrow=-1;delrow<=1;delrow++){
+                    for(int delcol=-1;delcol<=1;delcol++){
+                        if(abs(delrow) == abs(delcol)) continue;
+                        int nrow = delrow + i;
+                        int ncol = delcol + j;
+                        if(isValid(nrow, ncol, n) && grid[nrow][ncol] == 1){
+                            int nodeNo = i * n + j;
+                            int adjNodeNo = nrow * n + ncol;
+                            ds.unionBySize(nodeNo, adjNodeNo);
+                        }
+                    }
                 }
             }
-           mx=max(mx,ds.size[ds.findUPar(n*n-1)]);
-           /*
-            for(int i=0;i<n*n;i++)
-            {
-                mx=max(mx,ds.size[ds.findUPar(i)]);
-            }*/
         }
-        return mx;
+        //finding maximum island
+        int maxi = 0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 1) continue;
+                set<int> st;
+                for(int delrow=-1;delrow<=1;delrow++){
+                    for(int delcol=-1;delcol<=1;delcol++){
+                        if(abs(delrow) == abs(delcol)) continue;
+                        int nrow = delrow + i;
+                        int ncol = delcol + j;
+                        if(isValid(nrow, ncol, n)){
+                            if(grid[nrow][ncol] == 1){
+                                st.insert(ds.findUPar(nrow * n + ncol));
+                            }
+                        }
+                    }
+                }
+                int sizeTotal = 0;
+                for(auto it: st) sizeTotal += ds.size[it];
+                maxi = max(maxi, sizeTotal+1);
+            }
+        }
+        for(int i=0;i<n*n;i++){
+            maxi = max(maxi, ds.size[ds.findUPar(i)]);
+        }
+        return maxi;
     }
 };
 
