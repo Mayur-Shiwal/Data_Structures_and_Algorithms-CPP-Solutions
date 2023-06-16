@@ -10,13 +10,11 @@ class Solution {
     long long f(int pos, int ind, vector<int> &v, vector<vector<long long>> &dp, int indication){
         if(ind == v.size()) return 0;
         if(dp[ind][indication] != -1) return dp[ind][indication];
-        long long firstPos = 0;
-        long long secondPos = 0;
         int left = mp1[v[ind]];
         int right = mp2[v[ind]];
-        firstPos = abs(pos - left) + abs(left - right) + f(right, ind+1, v, dp, 1);
+        long long firstPos = abs(pos - left) + abs(left - right) + f(right, ind+1, v, dp, 1);
         if(ind == v.size()-1) firstPos += abs(right - 0);
-        secondPos = abs(pos - right) + abs(left - right) + f(left, ind+1, v, dp, 0);
+        long long secondPos = abs(pos - right) + abs(left - right) + f(left, ind+1, v, dp, 0);
         if(ind == v.size()-1) secondPos += abs(left - 0);
         return dp[ind][indication] = min(firstPos, secondPos);
     }
