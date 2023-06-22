@@ -16,7 +16,7 @@ class Solution {
                     mp[10]--;
                     mp[5]--;
                 }
-                else if(mp[5] >= 5){
+                else if(mp[5] >= 3){
                     mp[5] -= 3;
                 }
                 else return false;
