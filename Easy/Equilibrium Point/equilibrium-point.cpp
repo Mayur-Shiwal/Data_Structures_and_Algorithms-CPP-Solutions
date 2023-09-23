@@ -12,6 +12,7 @@ class Solution{
     // a: input array
     // n: size of array
     int equilibriumPoint(long long a[], int n) {
+    
         // Your code here
         vector<int> v1;
         vector<int> v2;
@@ -30,7 +31,6 @@ class Solution{
             if(v1[i] == v2[i]) return i+1;
         }
         return -1;
-        
     }
 
 };
