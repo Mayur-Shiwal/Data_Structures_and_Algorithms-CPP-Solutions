@@ -10,7 +10,7 @@ class Solution{
     long countSubarrays(int a[], int n, int L, int R)
     {
         // Complete the function
-        int ans = 0;
+        long ans = 0;
         int i = 0;
         int j = 0;
         int pre = 0;
@@ -30,6 +30,7 @@ class Solution{
         
     }
 };
+
 
 //{ Driver Code Starts.
 // driver program
