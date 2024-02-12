@@ -9,51 +9,19 @@ using namespace std;
 
 class Solution{
 public:
-      long long solve(int N)
-
-    {
-
-        if(N==1)
-
-        {
-
-            return 1;
-
+    const long long int mod = 1e9 + 7;
+    long long sequence(int n){
+        // code here
+        long long ans = 0;
+        int cnt = 1;
+        for(int i=1;i<=n;i++){
+            int temp = i;
+            // cnt = i;
+            long long total = 1;
+            while(temp--) total = (total * cnt++) % mod;
+            ans = (ans + total) % mod;
         }
-
-        if(N==2)
-
-        {
-
-            return 7;
-
-        }
-
-        int s=0;
-
-        for(int i=0;i<N;i++)
-
-        {
-
-            s=s+i;
-
-        }
-
-        long long an=1;
-
-        for(int i=s+N;i>s;i--)
-
-        {
-
-            an=an*(i);
-
-        }
-
-        return an+solve(N-1);
-
-    }
-    long long sequence(int N){
-        return solve(N);
+        return ans;
     }
 };
 
